@@ -33,7 +33,7 @@ app.use(expressBasicAuth({
   unauthorizedResponse: getUnauthorizedResponse
 }))
 
-const whitelist = ['192.168.0.13', '::ffff:192.168.2.13']; // Example IP 
+const whitelist = ['192.168.2.14', '::ffff:192.168.2.13']; // Example IP 
 const whitelistMiddleware = (req, res, next) => {
     const userIP = req.ip; // Get user's IP address
     console.log('userIP' , userIP)
