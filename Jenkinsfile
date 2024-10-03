@@ -1,6 +1,11 @@
 pipeline {
-    agent any
+    agent {label "xyp_api_server"}
     stages {
+        stage('Checkout'){
+            steps{
+                checkout scmGit(branches: [[name: '*/stage']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins_crm_web', url: 'https://github.com/kchsolution/xyp_client_api.git']])
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
