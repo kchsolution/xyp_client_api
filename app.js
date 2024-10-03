@@ -33,7 +33,7 @@ app.use(expressBasicAuth({
   unauthorizedResponse: getUnauthorizedResponse
 }))
 
-const whitelist = ['192.168.2.14', '::ffff:192.168.2.13']; // Example IP 
+const whitelist = ['192.168.2.13', '::ffff:192.168.2.13']; // Example IP 
 const whitelistMiddleware = (req, res, next) => {
     const userIP = req.ip; // Get user's IP address
     console.log('userIP' , userIP)
@@ -48,7 +48,7 @@ const whitelistMiddleware = (req, res, next) => {
   };
   
 // Apply whitelist middleware to routes
-app.use(whitelistMiddleware);
+// app.use(whitelistMiddleware);
 
 async function asyncAuthorizer(username, password, cb) {
   if (expressBasicAuth.safeCompare(username, process.env.AUTH_USER) & bcrypt.compareSync(password, process.env.AUTH_PASS))
