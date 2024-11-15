@@ -253,12 +253,15 @@ if(!regnum){
 }
   const url = REQUEST_URL.citizen;
   const signData = sign();
-  const args = {
+
+ //  'civilId' : civilId ? civilId : '0'
+  
+ const args = {
     'request': {
         'regnum': regnum,
-        'civilId' : civilId ? civilId : '0'
     },
   };
+ 
   try {
       soap.createClient(url, {endpoint: url}, function (err, client) {
         if(err){
