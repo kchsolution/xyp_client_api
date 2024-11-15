@@ -245,7 +245,7 @@ if(!regnum){
 
 
 app.post('/citizen-idcard-info', async(req, res, next) => {
-  const { regnum } = req.body;
+  const { regnum, civilId } = req.body;
 
 if(!regnum){
   res.status(400).json({ message : 'РД дугаар шаардлагатай!' });
@@ -256,7 +256,7 @@ if(!regnum){
   const args = {
     'request': {
         'regnum': regnum,
-        'civilId' : '0'
+        'civilId' : civilId ? civilId : '0'
     },
   };
   try {
