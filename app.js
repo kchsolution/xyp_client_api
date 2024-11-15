@@ -137,7 +137,7 @@ app.post('/citizen-salary-info', async(req, res, next) => {
 })
 
 app.post('/citizen-address-info', async(req, res, next) => {
-    const { regnum, civilId } = req.body;
+    const { regnum } = req.body;
 
   if(!regnum){
     res.status(400).json({ message : 'РД дугаар шаардлагатай!' });
@@ -147,8 +147,7 @@ app.post('/citizen-address-info', async(req, res, next) => {
     const signData = sign();
     const args = {
       'request': {
-          'regnum': regnum,
-          'civilId' : '0'
+          'regnum': regnum
       },
     };
     try {
@@ -245,7 +244,7 @@ if(!regnum){
 
 
 app.post('/citizen-idcard-info', async(req, res, next) => {
-  const { regnum, civilId } = req.body;
+  const { regnum } = req.body;
 
 if(!regnum){
   res.status(400).json({ message : 'РД дугаар шаардлагатай!' });
@@ -254,11 +253,9 @@ if(!regnum){
   const url = REQUEST_URL.citizen;
   const signData = sign();
 
- //  'civilId' : civilId ? civilId : '0'
-  
  const args = {
     'request': {
-        'regnum': regnum,
+        'regnum': regnum
     },
   };
  
@@ -313,8 +310,7 @@ if(!regnum){
   const signData = sign();
   const args = {
     'request': {
-        'regnum': regnum,
-        'civilId' : '0'
+        'regnum': regnum
     },
   };
   try {
