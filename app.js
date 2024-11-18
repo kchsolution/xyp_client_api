@@ -410,6 +410,65 @@ if(!regnum){
 });
 
 
+app.post('/common', cors(corsOptions), async(req, res, next) => {
+
+  const { query, urn, serviceName } = req.body;
+
+  if(!query || !urn || !serviceName){
+      res.status(400).json({ message : 'Хүсэлтийн мэдээлэл дутуу байна!' });
+      return;
+  }
+  
+  console.log(' query- - ', JSON.stringify(query));
+  console.log(' urn- - ', typeof urn, ' ', urn);
+  console.log(' serviceName- - ', typeof serviceName, ' ', serviceName);
+
+  const url = `https://xyp.gov.mn/${urn}`;
+  console.log(' url- - ', url);
+
+  const signData = sign();
+
+  try {
+      soap.createClient(url, {endpoint: url}, function (err, client) {
+          if(err){
+              console.error('createClient error : ', err)
+              res.status(500).json({
+                  message: err?.message || "fails",
+              });
+          }
+
+          client.addHttpHeader('accessToken', signData.accessToken);
+          client.addHttpHeader('timeStamp', signData.timeStamp.toString());
+          client.addHttpHeader('signature', signData.signature);
+
+          client[serviceName](query, function (err, result) {
+              if(err){
+                  console.error(err)
+                  res.status(500).json({
+                      message: err?.message || "fails",
+                  });
+              }
+              const resultCode = result?.return?.resultCode;
+              const resultData = resultCode === 0 ? result?.return?.response : null;
+              const data = {
+                  resultData,
+                  resultCode,
+                  resultMessage : result?.return?.resultMessage
+              }
+              res.status(200).json(data);
+          });
+      });
+
+  } catch (err){
+      console.error(err)
+      res.status(500).json({
+          message: err?.message || "failed",
+      });
+  }
+
+
+});
+
 
 app.post('/test', cors(corsOptions), async(req, res, next) => {
   res.json({msg: 'success'})
